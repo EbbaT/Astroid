@@ -38,6 +38,14 @@ class Asteroids( Game ):
         self.bullets = []
 
 
+        self.life = 3
+        self.score = 0
+        self.last = pygame.time.get_ticks()
+        self.cooldown = 150
+
+
+
+
     def handle_input(self):
         super().handle_input()
         keys_pressed = pygame.key.get_pressed()
@@ -51,8 +59,12 @@ class Asteroids( Game ):
             self.ship.accelerate(0)
         if keys_pressed[K_SPACE] and self.ship:
             # TODO: should create a bullet when the user fires
-            if len(self.bullets) == 0:
-                self.bullets.append(Bullet(self.ship.get_x(), self.ship.get_y(), self.ship.get_rotation()))
+            now = pygame.time.get_ticks()
+            if now - self.last >= self.cooldown:
+                self.last = now
+                if len(self.bullets) <= 10:
+                    self.last = now
+                    self.bullets.append(Bullet(self.ship.get_x(), self.ship.get_y(), self.ship.get_rotation()))
                 
 
 
@@ -107,6 +119,12 @@ class Asteroids( Game ):
         for bullet in self.bullets:
             bullet.draw( self.screen )
 
+        score = self.myfont.render("Score: {}".format(str(self.score)), 1, (255, 255, 0))
+        self.screen.blit(score, (525,10))
+
+        life = self.myfont.render("Life: {}".format(str(self.life)), 1, (255, 255, 0))
+        self.screen.blit(life, (525, 30))
+
 
     def handle_collisions(self):
         """
@@ -123,7 +141,7 @@ class Asteroids( Game ):
         for asteriod in self.asteroids:
             if asteriod.collide(self.ship):
                     self.asteroids.remove(asteriod)
-
+                    self.life = self.life - 1
             for bullet in self.bullets:
                 if asteriod.contains(bullet.position):
                     self.asteroids.remove(asteriod)
