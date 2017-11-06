@@ -11,16 +11,18 @@ class Stones(Polygon):
 
     def __init__(self, bool):
         
-        #self.big = pygame.image.load("asteroid_test_stone1.png")
-        #self.medium = pygame.image.load("asteroid_test_stone2.png")
+        self.big = pygame.image.load("asteroid_test_stone1.png")
+        self.medium = pygame.image.load("asteroid_test_stone2.png")
+
+        self.big = pygame.transform.scale(self.big, (40,40) )
+        self.medium = pygame.transform.scale( self.medium, (30,30) )
 
         big_asteroid = [Point(10,30), Point(25,25), Point(33,11), Point(35,-7), Point(21,-13), Point(13,-29), Point(-13,-31), Point(-21,-28), Point(-28,-22), Point(-34,-6), Point(-32,14), Point(-29, 21), Point(-15, 9), Point(-23, 24), Point(-10, 30)]
         
         medium_asteroid = [Point(-12, 12), Point(-13, 17), Point(15, 19), Point(20, 12), Point(17, -5), Point(14, -10), Point(-2, -13), Point(-12, -5), Point(-10, 2), Point(-9, 5)]
-        
-        #small_asteroid = [Point(10,3), Point(22,11), Point(12, 10), Point(0, 0)]
+       
 
-        #self.scaled_image = random.choice([self.big, self.medium])
+        self.scaled_image = random.choice([self.big, self.medium])
         self.points = random.choice([big_asteroid, medium_asteroid])
 
         if bool == False:
@@ -48,17 +50,14 @@ class Stones(Polygon):
         return self.position
 
 
-    #def draw(self, screen):
+    def draw(self, screen):
+        rotated_image = pygame.transform.rotate(self.scaled_image, self.rotation)
 
-    #    #scaled_image  = pygame.transform.scale( self.big, (40,40) )
+        x = self.position.x - rotated_image.get_width()/2
 
-    #    rotated_image = pygame.transform.rotate(scaled_image, self.rotation)
+        y = self.position.y -  rotated_image.get_height()/2
 
-    #    x = self.position.x - rotated_image.get_width()/2
-
-    #    y = self.position.y -  rotated_image.get_height()/2
-
-    #    screen.blit(rotated_image, (x, y))
+        screen.blit(rotated_image, (x, y))
 
 
         
