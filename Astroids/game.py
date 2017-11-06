@@ -23,6 +23,7 @@ class Game( ABC ):
         pygame.display.init()
         pygame.font.init()
         pygame.display.set_caption(name)
+        pygame.init()
 
         # Store the screen object for drawing too
         self.screen = pygame.display.set_mode([width,height])
