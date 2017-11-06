@@ -16,6 +16,10 @@ class Ship(Polygon):
         super().__init__([ Point(0,0), Point(-10,10), Point(15,0), Point(-10,-10) ], 320, 240, 0)
 
 
+        """
+        Checking checking
+        """
+
         self.pull = Point(0, -0.1)
         self.angular_velocity = 0.0
 
