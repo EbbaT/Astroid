@@ -38,7 +38,7 @@ class Asteroids( Game ):
 
         self.myfont = pygame.font.SysFont("monospace", 20, True)
 
-
+        self.life = 3
         self.score = 0
         self.last = pygame.time.get_ticks()
         self.cooldown = 150
@@ -119,6 +119,9 @@ class Asteroids( Game ):
         score = self.myfont.render("Score: {}".format(str(self.score)), 1, (255, 255, 0))
         self.screen.blit(score, (525,10))
 
+        life = self.myfont.render("Life: {}".format(str(self.life)), 1, (255, 255, 0))
+        self.screen.blit(life, (525, 30))
+
 
     def handle_collisions(self):
         """
@@ -133,6 +136,7 @@ class Asteroids( Game ):
         for asteriod in self.asteroids:
             if asteriod.contains(self.ship.position):
                     self.asteroids.remove(asteriod)
+                    self.life = self.life - 1
             for bullet in self.bullets:
                 if asteriod.contains(bullet.position):
                     self.asteroids.remove(asteriod)
