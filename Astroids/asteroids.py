@@ -11,6 +11,7 @@ from flying_stones import Stones
 from star import Star
 from bullet import Bullet
 
+##
 
 class Asteroids( Game ):
     """
