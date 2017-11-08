@@ -6,27 +6,39 @@ from circle import Circle
 
 
 class Stones(Polygon):
-
+#
     """Asteroidsssss"""
 
-    def __init__(self, bool):
-        
+    def __init__(self, choice, x=0, y=0):
+
         #self.big = pygame.image.load("asteroid_test_stone1.png")
         #self.medium = pygame.image.load("asteroid_test_stone2.png")
 
         big_asteroid = [Point(10,30), Point(25,25), Point(33,11), Point(35,-7), Point(21,-13), Point(13,-29), Point(-13,-31), Point(-21,-28), Point(-28,-22), Point(-34,-6), Point(-32,14), Point(-29, 21), Point(-15, 9), Point(-23, 24), Point(-10, 30)]
         
         medium_asteroid = [Point(-12, 12), Point(-13, 17), Point(15, 19), Point(20, 12), Point(17, -5), Point(14, -10), Point(-2, -13), Point(-12, -5), Point(-10, 2), Point(-9, 5)]
-        
+
         #small_asteroid = [Point(10,3), Point(22,11), Point(12, 10), Point(0, 0)]
 
         #self.scaled_image = random.choice([self.big, self.medium])
-        self.points = random.choice([big_asteroid, medium_asteroid])
+        self.points = random.choice([big_asteroid])#, medium_asteroid])
 
-        if bool == False:
+
+
+        if choice == "True":
             self.position = Point(random.randrange(0, 640, 5), random.randrange(0, 480, 5))
             #Startposition
-        elif bool == True:
+            self.points = big_asteroid
+        if choice == "Medium":
+            self.points =  medium_asteroid
+            self.newMedium(x,y)
+
+
+
+
+
+
+        elif choice == "False":
             self.newStone()
 
         self.rotation = random.randrange(0, 359, 15)
@@ -46,6 +58,12 @@ class Stones(Polygon):
         self.position = random.choice([posx, posy])
 
         return self.position
+
+    def newMedium(self,x,y):
+         self.position = Point(x,y)
+       
+
+
 
 
     #def draw(self, screen):

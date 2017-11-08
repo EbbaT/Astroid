@@ -7,7 +7,7 @@ import time
 from game import Game
 from ship import Ship
 from point import Point
-from flying_stones import Stones
+from flying_stones import *
 from star import Star
 from bullet import Bullet
 
@@ -26,7 +26,7 @@ class Asteroids( Game ):
         # TODO: should create asteroids
         self.asteroids = []
         for i in range(8):
-            self.asteroids.append(Stones(False))
+            self.asteroids.append(Stones("False"))
         
         # TODO: should create stars
         self.stars=[]
@@ -41,7 +41,7 @@ class Asteroids( Game ):
         self.life = 3
         self.score = 0
         self.last = pygame.time.get_ticks()
-        self.cooldown = 150
+        self.cooldown = 350
 
 
 
@@ -65,7 +65,7 @@ class Asteroids( Game ):
                 if len(self.bullets) <= 10:
                     self.last = now
                     self.bullets.append(Bullet(self.ship.get_x(), self.ship.get_y(), self.ship.get_rotation()))
-                
+
 
 
     def update_simulation(self):
@@ -80,7 +80,7 @@ class Asteroids( Game ):
         for asteroid in self.asteroids:
             asteroid.update( self.width, self.height )
             if len(self.asteroids) < 8:
-                self.asteroids.append(Stones(True))
+                self.asteroids.append(Stones("True"))
 
         #for star in self.stars:
             #star.update( self.width, self.height )
@@ -137,9 +137,17 @@ class Asteroids( Game ):
             if asteriod.contains(self.ship.position):
                     self.asteroids.remove(asteriod)
                     self.life = self.life - 1
+
             for bullet in self.bullets:
                 if asteriod.contains(bullet.position):
+
+
                     self.asteroids.remove(asteriod)
+                    self.asteroids.append(Stones("Medium",asteriod.position.x, asteriod.position.y))
+                    self.asteroids.append(Stones("Medium", asteriod.position.x, asteriod.position.y))
                     self.bullets.remove(bullet)
                     self.score  = self.score + 1
-                    print(self.score)
+
+
+
+
