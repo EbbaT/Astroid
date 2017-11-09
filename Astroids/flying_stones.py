@@ -18,13 +18,14 @@ class Stones(Polygon):
         self.big = pygame.transform.scale(self.big, (60,60) )
         self.medium = pygame.transform.scale( self.medium, (40,40) )
 
-        medium = [Point(10,10), Point(-10, -10), Point(5,5) ]
-        big = [Point(15,15), Point(-15, -15), Point(10,10) ]
+        medium = [Point(10,10), Point(-10, -10), Point(5, -5) ]
+        big = [Point(15, 15), Point(-15, -15), Point(10, -10) ]
 
         self.picture = random.choice([self.big, self.medium])
 
         if self.picture == self.big:
             self.points = big
+
         elif self.picture == self.medium:
             self.points = medium
 

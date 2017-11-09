@@ -22,7 +22,6 @@ class Asteroids( Game ):
 
         self.ship = Ship()
         #  TODO: should create a Ship object here
-        
 
         # TODO: should create asteroids
         self.asteroids = []
@@ -44,9 +43,9 @@ class Asteroids( Game ):
         super().handle_input()
         keys_pressed = pygame.key.get_pressed()
         if keys_pressed[K_LEFT] and self.ship:
-            self.ship.rotate(-3)
+            self.ship.rotate(-2)
         if keys_pressed[K_RIGHT] and self.ship:
-            self.ship.rotate(3)
+            self.ship.rotate(2)
         if keys_pressed[K_UP] and self.ship:
             self.ship.accelerate(0.05)
         if keys_pressed[K_DOWN] and self.ship:
@@ -128,12 +127,14 @@ class Asteroids( Game ):
 
             for bullet in self.bullets:
                 if asteriod.contains(bullet.position):
-
-                    if asteriod.name == "M":
-                        self.asteroids.remove(asteriod)
-
-                    elif asteriod.name == "L":
-                        self.asteroids.remove(asteriod)
-                        self.asteroids.append(newMedium, asteriod.getPosition())
-                        self.asteroids.append(newMedium, asteriod.getPosition())
+                    self.asteroids.remove(asteriod)
                     self.bullets.remove(bullet)
+
+                    #if asteriod.name == "M":
+                    #    self.asteroids.remove(asteriod)
+
+                    #elif asteriod.name == "L":
+                    #    
+                    #    self.asteroids.append(newMedium, asteriod.getPosition())
+                    #    self.asteroids.append(newMedium, asteriod.getPosition())
+                    #

@@ -19,11 +19,20 @@ class Polygon(Shape):
 
     def draw(self, screen):
 
+        points = self.getRotatedPoints()
+        # Convert our point objects into a list of tuples that PyGame expects:
+
+        vectors=[]
+        for p in points:
+            vectors.append( (p.x, p.y) )
+
         scaled_image = self.picture
         rotated_image = pygame.transform.rotate( scaled_image, -self.rotation)
         x = self.position.x-rotated_image.get_width()/2
         y = self.position.y -rotated_image.get_height()/2
         screen.blit(rotated_image, (x, y))
+
+
 
 
     def getRotatedPoints(self):
@@ -64,6 +73,7 @@ class Polygon(Shape):
         return math.fabs( sum/2 )
 
 
+
     def findCenter(self):
         """
         Computes the center point of the polygon - helps us rotate polygons more nicely
@@ -84,7 +94,7 @@ class Polygon(Shape):
         return Point( math.fabs( sum.x/(6*area)), math.fabs( sum.y/(6*area)) )
 
 
-    def contains(self, other):
+    def contains(self, point):
         """
         contains()  - used for collission detection. Computes if a given Point is inside
         or outside of the polygon.
@@ -108,7 +118,7 @@ class Polygon(Shape):
         return crossingNumber % 2 == 1
 
 
-    def collide(self, other):
+    def collide(self, poly):
         """
         We override collide() to test if two polygons overlapp each other or not
         This can be used to test e.g. if an astroid and a ship have collided
