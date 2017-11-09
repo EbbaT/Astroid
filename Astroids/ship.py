@@ -17,7 +17,10 @@ class Ship(Polygon):
 
 
         """
-        Checking checking
+        
+        Måste skriva om shit ship filen med det jag råkade skriva över med source filen, orkar inte fortsätta nu. FUck this shit
+
+
         """
 
         self.pull = Point(0, -0.1)
