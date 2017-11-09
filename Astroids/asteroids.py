@@ -19,14 +19,18 @@ class Asteroids( Game ):
     def __init__(self, name, width, height):
         super().__init__( name, width, height )
 
+
         self.ship = Ship()
         #  TODO: should create a Ship object here
         
+
         # TODO: should create asteroids
         self.asteroids = []
         for i in range(8):
             self.asteroids.append(Stones(False))
         
+
+
         # TODO: should create stars
         self.stars=[]
         for i in range(100):
@@ -55,9 +59,12 @@ class Asteroids( Game ):
 
 
     def update_simulation(self):
+
         """
         update_simulation() causes all objects in the game to update themselves
         """
+
+
         super().update_simulation()
 
         if self.ship:
@@ -113,10 +120,20 @@ class Asteroids( Game ):
         # TODO: implement collission detection,
         #       using the collission detection methods in all of the shapes
 
+
+
         for asteriod in self.asteroids:
             if asteriod.contains(self.ship.position):
                     self.asteroids.remove(asteriod)
+
             for bullet in self.bullets:
                 if asteriod.contains(bullet.position):
-                    self.asteroids.remove(asteriod)
+
+                    if asteriod.name == "M":
+                        self.asteroids.remove(asteriod)
+
+                    elif asteriod.name == "L":
+                        self.asteroids.remove(asteriod)
+                        self.asteroids.append(newMedium, asteriod.getPosition())
+                        self.asteroids.append(newMedium, asteriod.getPosition())
                     self.bullets.remove(bullet)

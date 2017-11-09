@@ -6,25 +6,24 @@ from point import Point
 
 
 class Polygon(Shape):
-    def __init__(self, points=[], x=0, y=0, rotation=0):
+    def __init__(self, picture, points=[], x=0, y=0, rotation=0):
         """ points = all coordinates for the lines in the polygon
             x, y   = the 2-dimensional coordinates for the location of the polygon
             rotation = how many degrees the polygon should be rotated
             """
         super().__init__( x, y, rotation )
-        # Make our own copy of all the points that make up this polygon
+
+        self.picture = picture
+
         self.points = list(points)
 
-
     def draw(self, screen):
-        # Since polygons can be rotated, we need to "translate" all the points
-        # by the amount of rotation before we draw them:
-        points = self.getRotatedPoints()
-        # Convert our point objects into a list of tuples that PyGame expects:
-        vectors=[]
-        for p in points:
-            vectors.append( (p.x, p.y) )
-        pygame.draw.polygon( screen,  (255,255,255), vectors, 1 )
+
+        scaled_image = self.picture
+        rotated_image = pygame.transform.rotate( scaled_image, -self.rotation)
+        x = self.position.x-rotated_image.get_width()/2
+        y = self.position.y -rotated_image.get_height()/2
+        screen.blit(rotated_image, (x, y))
 
 
     def getRotatedPoints(self):
@@ -85,13 +84,14 @@ class Polygon(Shape):
         return Point( math.fabs( sum.x/(6*area)), math.fabs( sum.y/(6*area)) )
 
 
-    def contains(self, point):
+    def contains(self, other):
         """
         contains()  - used for collission detection. Computes if a given Point is inside
         or outside of the polygon.
         :param point: Which point
         :return: True or False depending on if the point is inside or not
         """
+
         crossingNumber = 0.0
         i = 0
         j = 1
@@ -108,7 +108,7 @@ class Polygon(Shape):
         return crossingNumber % 2 == 1
 
 
-    def collide(self, poly):
+    def collide(self, other):
         """
         We override collide() to test if two polygons overlapp each other or not
         This can be used to test e.g. if an astroid and a ship have collided
@@ -116,6 +116,7 @@ class Polygon(Shape):
         :param poly: Another object of typ Polygon
         :return: True or False depending on if the two objects intersect or not.
         """
+
         points = poly.getRotatedPoints()
 
         for p in points:

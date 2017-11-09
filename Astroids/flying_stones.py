@@ -14,22 +14,28 @@ class Stones(Polygon):
         self.big = pygame.image.load("asteroid_test_stone1.png")
         self.medium = pygame.image.load("asteroid_test_stone2.png")
 
-        self.big = pygame.transform.scale(self.big, (40,40) )
-        self.medium = pygame.transform.scale( self.medium, (30,30) )
 
-        big_asteroid = [Point(10,30), Point(25,25), Point(33,11), Point(35,-7), Point(21,-13), Point(13,-29), Point(-13,-31), Point(-21,-28), Point(-28,-22), Point(-34,-6), Point(-32,14), Point(-29, 21), Point(-15, 9), Point(-23, 24), Point(-10, 30)]
-        
-        medium_asteroid = [Point(-12, 12), Point(-13, 17), Point(15, 19), Point(20, 12), Point(17, -5), Point(14, -10), Point(-2, -13), Point(-12, -5), Point(-10, 2), Point(-9, 5)]
-       
+        self.big = pygame.transform.scale(self.big, (60,60) )
+        self.medium = pygame.transform.scale( self.medium, (40,40) )
 
-        self.scaled_image = random.choice([self.big, self.medium])
-        self.points = random.choice([big_asteroid, medium_asteroid])
+        medium = [Point(10,10), Point(-10, -10), Point(5,5) ]
+        big = [Point(15,15), Point(-15, -15), Point(10,10) ]
+
+        self.picture = random.choice([self.big, self.medium])
+
+        if self.picture == self.big:
+            self.points = big
+        elif self.picture == self.medium:
+            self.points = medium
+
+
 
         if bool == False:
             self.position = Point(random.randrange(0, 640, 5), random.randrange(0, 480, 5))
             #Startposition
         elif bool == True:
             self.newStone()
+
 
         self.rotation = random.randrange(0, 359, 15)
         #Hur snabbt asteroiden roterar
@@ -48,16 +54,6 @@ class Stones(Polygon):
         self.position = random.choice([posx, posy])
 
         return self.position
-
-
-    def draw(self, screen):
-        rotated_image = pygame.transform.rotate(self.scaled_image, self.rotation)
-
-        x = self.position.x - rotated_image.get_width()/2
-
-        y = self.position.y -  rotated_image.get_height()/2
-
-        screen.blit(rotated_image, (x, y))
 
 
         
