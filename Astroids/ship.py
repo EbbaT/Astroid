@@ -11,17 +11,13 @@ class Ship(Polygon):
     def __init__(self):
 
         self.ship_image = pygame.image.load("test_fighter.png")
-        
+        #self.ship_image = pygame.image.load("falcon2.png")
+        #Min not so good Falcon ;_;
+        self.ship_image = pygame.transform.scale( self.ship_image, (50,50) )
 
-        super().__init__([ Point(0,0), Point(-10,10), Point(15,0), Point(-10,-10) ], 320, 240, 0)
+        size = [Point(-17,-20), Point(10, -20), Point(25, -2), Point(0, 20),Point(-20, 15), Point(-25, 0) ]
 
-
-        """
-        
-        Måste skriva om shit ship filen med det jag råkade skriva över med source filen, orkar inte fortsätta nu. FUck this shit
-
-
-        """
+        super().__init__(self.ship_image, size, 320, 240, 0)
 
         self.pull = Point(0, -0.1)
         self.angular_velocity = 0.0
@@ -35,13 +31,6 @@ class Ship(Polygon):
 
     def get_rotation(self):
         return self.rotation
-
-    def draw(self, screen):
-        scaled_image  = pygame.transform.scale( self.ship_image, (50,50) )
-        rotated_image = pygame.transform.rotate( scaled_image, -self.rotation)
-        x = self.position.x-rotated_image.get_width()/2
-        y = self.position.y -rotated_image.get_height()/2
-        screen.blit(rotated_image, (x, y))
 
 
 
