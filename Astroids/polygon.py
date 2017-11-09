@@ -31,6 +31,7 @@ class Polygon(Shape):
         x = self.position.x-rotated_image.get_width()/2
         y = self.position.y -rotated_image.get_height()/2
         screen.blit(rotated_image, (x, y))
+        #pygame.draw.polygon( screen,  (0, 255, 0), vectors, 1 )
 
 
 

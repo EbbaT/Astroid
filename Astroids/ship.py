@@ -13,11 +13,11 @@ class Ship(Polygon):
         self.ship_image = pygame.image.load("falcon2.png")
         self.ship_image = pygame.transform.scale( self.ship_image, (50,50) )
 
-        size = [Point(0,0), Point(-10,10), Point(15, 0), Point(-10,-10) ]
+        size = [Point(-17,-20), Point(10, -20), Point(25, -2), Point(0, 20),Point(-20, 15), Point(-25, 0) ]
 
         super().__init__(self.ship_image, size, 320, 240, 0)
 
-        self.pull = Point(0, -0.1)
+        self.pull = Point(0, 0)
         self.angular_velocity = 0.0
 
 
