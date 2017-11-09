@@ -11,7 +11,6 @@ from flying_stones import Stones
 from star import Star
 from bullet import Bullet
 
-##
 
 class Asteroids( Game ):
     """
@@ -20,14 +19,17 @@ class Asteroids( Game ):
     def __init__(self, name, width, height):
         super().__init__( name, width, height )
 
+
         self.ship = Ship()
         #  TODO: should create a Ship object here
-        
+
         # TODO: should create asteroids
         self.asteroids = []
         for i in range(8):
             self.asteroids.append(Stones(False))
         
+
+
         # TODO: should create stars
         self.stars=[]
         for i in range(100):
@@ -36,42 +38,32 @@ class Asteroids( Game ):
 
         self.bullets = []
 
-        self.myfont = pygame.font.SysFont("monospace", 20, True)
-
-        self.life = 3
-        self.score = 0
-        self.last = pygame.time.get_ticks()
-        self.cooldown = 150
-
-
-
 
     def handle_input(self):
         super().handle_input()
         keys_pressed = pygame.key.get_pressed()
         if keys_pressed[K_LEFT] and self.ship:
-            self.ship.rotate(-3)
+            self.ship.rotate(-2)
         if keys_pressed[K_RIGHT] and self.ship:
-            self.ship.rotate(3)
+            self.ship.rotate(2)
         if keys_pressed[K_UP] and self.ship:
             self.ship.accelerate(0.05)
         if keys_pressed[K_DOWN] and self.ship:
             self.ship.accelerate(0)
         if keys_pressed[K_SPACE] and self.ship:
             # TODO: should create a bullet when the user fires
-            now = pygame.time.get_ticks()
-            if now - self.last >= self.cooldown:
-                self.last = now
-                if len(self.bullets) <= 10:
-                    self.last = now
-                    self.bullets.append(Bullet(self.ship.get_x(), self.ship.get_y(), self.ship.get_rotation()))
+            if len(self.bullets) == 0:
+                self.bullets.append(Bullet(self.ship.get_x(), self.ship.get_y(), self.ship.get_rotation()))
                 
 
 
     def update_simulation(self):
+
         """
         update_simulation() causes all objects in the game to update themselves
         """
+
+
         super().update_simulation()
 
         if self.ship:
@@ -116,12 +108,6 @@ class Asteroids( Game ):
         for bullet in self.bullets:
             bullet.draw( self.screen )
 
-        score = self.myfont.render("Score: {}".format(str(self.score)), 1, (255, 255, 0))
-        self.screen.blit(score, (525,10))
-
-        life = self.myfont.render("Life: {}".format(str(self.life)), 1, (255, 255, 0))
-        self.screen.blit(life, (525, 30))
-
 
     def handle_collisions(self):
         """
@@ -133,13 +119,22 @@ class Asteroids( Game ):
         # TODO: implement collission detection,
         #       using the collission detection methods in all of the shapes
 
+
+
         for asteriod in self.asteroids:
             if asteriod.contains(self.ship.position):
                     self.asteroids.remove(asteriod)
-                    self.life = self.life - 1
+
             for bullet in self.bullets:
                 if asteriod.contains(bullet.position):
                     self.asteroids.remove(asteriod)
                     self.bullets.remove(bullet)
-                    self.score  = self.score + 1
-                    print(self.score)
+
+                    #if asteriod.name == "M":
+                    #    self.asteroids.remove(asteriod)
+
+                    #elif asteriod.name == "L":
+                    #    
+                    #    self.asteroids.append(newMedium, asteriod.getPosition())
+                    #    self.asteroids.append(newMedium, asteriod.getPosition())
+                    #
