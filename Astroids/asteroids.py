@@ -37,14 +37,12 @@ class Asteroids( Game ):
 
         self.bullets = []
 
+        self.myfont = pygame.font.SysFont("monospace", 20, True)
 
         self.life = 3
         self.score = 0
         self.last = pygame.time.get_ticks()
         self.cooldown = 150
-
-
-
 
     def handle_input(self):
         super().handle_input()
