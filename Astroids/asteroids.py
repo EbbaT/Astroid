@@ -12,6 +12,7 @@ from star import Star
 from bullet import Bullet
 from bosses import *
 
+
 ##
 
 class Asteroids( Game ):
@@ -33,7 +34,12 @@ class Asteroids( Game ):
         self.stars=[]
         for i in range(100):
             self.stars.append(Star())
+
+
         
+        self.bosses = []
+        for i in range(3):
+            self.bosses.append(Bosses())
 
         self.bullets = []
 
@@ -93,6 +99,11 @@ class Asteroids( Game ):
             elif self.LargeAstroidCounter == 0:
                 self.LargeAstroidCounter = 12
 
+        for bosses in self.bosses:
+            bosses.update(self.width, self.height)
+
+
+
         #for star in self.stars:
             #star.update( self.width, self.height )
 
@@ -126,6 +137,10 @@ class Asteroids( Game ):
 
         for bullet in self.bullets:
             bullet.draw( self.screen )
+
+
+        for bosses in self.bosses:
+            bosses.draw( self.screen)
 
 
 
