@@ -10,6 +10,7 @@ from point import Point
 from flying_stones import *
 from star import Star
 from bullet import Bullet
+from bosses import *
 
 ##
 
@@ -41,7 +42,9 @@ class Asteroids( Game ):
         self.life = 3
         self.score = 0
         self.last = pygame.time.get_ticks()
-        self.cooldown = 350
+        self.cooldown = 150
+        self.LargeAstroidCounter = 8
+        self.tpcd = time.time()
 
 
 
@@ -66,7 +69,13 @@ class Asteroids( Game ):
                     self.last = now
                     self.bullets.append(Bullet(self.ship.get_x(), self.ship.get_y(), self.ship.get_rotation()))
 
+        if keys_pressed[K_0] and self.ship:
+            now = pygame.time.get_ticks()
+            print(now)
+            if now - self.last >= 2000:
 
+                self.ship.teleportShip()
+                self.last = now
 
     def update_simulation(self):
         """
@@ -79,8 +88,10 @@ class Asteroids( Game ):
 
         for asteroid in self.asteroids:
             asteroid.update( self.width, self.height )
-            if len(self.asteroids) < 8:
+            if len(self.asteroids) < self.LargeAstroidCounter:
                 self.asteroids.append(Stones("True"))
+            elif self.LargeAstroidCounter == 0:
+                self.LargeAstroidCounter = 12
 
         #for star in self.stars:
             #star.update( self.width, self.height )
@@ -116,6 +127,8 @@ class Asteroids( Game ):
         for bullet in self.bullets:
             bullet.draw( self.screen )
 
+
+
         score = self.myfont.render("Score: {}".format(str(self.score)), 1, (255, 255, 0))
         self.screen.blit(score, (525,10))
 
@@ -140,13 +153,17 @@ class Asteroids( Game ):
 
             for bullet in self.bullets:
                 if asteriod.contains(bullet.position):
-
-
-                    self.asteroids.remove(asteriod)
-                    self.asteroids.append(Stones("Medium",asteriod.position.x, asteriod.position.y))
-                    self.asteroids.append(Stones("Medium", asteriod.position.x, asteriod.position.y))
-                    self.bullets.remove(bullet)
-                    self.score  = self.score + 1
+                    if asteriod.astroidnamn == "M":
+                        self.asteroids.remove(asteriod)
+                        self.bullets.remove(bullet)
+                    elif asteriod.astroidnamn == "L":
+                        self.LargeAstroidCounter = self.LargeAstroidCounter - 1
+                        print (self.LargeAstroidCounter)
+                        self.asteroids.remove(asteriod)
+                        self.asteroids.append(Stones("Medium",asteriod.position.x, asteriod.position.y))
+                        self.asteroids.append(Stones("Medium", asteriod.position.x, asteriod.position.y))
+                        self.bullets.remove(bullet)
+                        self.score  = self.score + 1
 
 
 

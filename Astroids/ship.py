@@ -3,7 +3,7 @@ from point import Point
 import os, pygame
 from circle import Circle
 from shape import Shape
-
+from random import randint
 class Ship(Polygon):
 
     """Player Ship"""
@@ -39,6 +39,10 @@ class Ship(Polygon):
         x = self.position.x-rotated_image.get_width()/2
         y = self.position.y -rotated_image.get_height()/2
         screen.blit(rotated_image, (x, y))
+
+    def teleportShip(self):
+        self.position.x = randint(1,640)
+        self.position.y = randint(1,480)
 
 
 

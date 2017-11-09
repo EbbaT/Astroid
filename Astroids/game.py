@@ -29,6 +29,7 @@ class Game( ABC ):
         self.screen = pygame.display.set_mode([width,height])
 
     def runGame(self):
+        clock = pygame.time.Clock()
         # Our "infinite" loop for the game logic and drawing
         while self.running:
             # WARNING: the following code is very important, if we don't loop
@@ -36,7 +37,7 @@ class Game( ABC ):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
-
+            clock.tick(30)
             self.handle_input()
             self.update_simulation()
             self.paint()
