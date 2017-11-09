@@ -23,13 +23,12 @@ class Asteroids( Game ):
         self.ship = Ship()
         #  TODO: should create a Ship object here
 
+
         # TODO: should create asteroids
         self.asteroids = []
         for i in range(8):
             self.asteroids.append(Stones(False))
         
-
-
         # TODO: should create stars
         self.stars=[]
         for i in range(100):
@@ -42,13 +41,13 @@ class Asteroids( Game ):
     def handle_input(self):
         super().handle_input()
         keys_pressed = pygame.key.get_pressed()
-        if keys_pressed[K_LEFT] and self.ship:
-            self.ship.rotate(-2)
-        if keys_pressed[K_RIGHT] and self.ship:
-            self.ship.rotate(2)
-        if keys_pressed[K_UP] and self.ship:
+        if (keys_pressed[K_LEFT] or keys_pressed[K_a]) and self.ship:
+            self.ship.rotate(-3)
+        if (keys_pressed[K_RIGHT] or keys_pressed[K_d]) and self.ship:
+            self.ship.rotate(3)
+        if (keys_pressed[K_UP] or keys_pressed[K_w]) and self.ship:
             self.ship.accelerate(0.05)
-        if keys_pressed[K_DOWN] and self.ship:
+        if (keys_pressed[K_DOWN] or keys_pressed[K_s]) and self.ship:
             self.ship.accelerate(0)
         if keys_pressed[K_SPACE] and self.ship:
             # TODO: should create a bullet when the user fires
@@ -122,7 +121,7 @@ class Asteroids( Game ):
 
 
         for asteriod in self.asteroids:
-            if asteriod.contains(self.ship.position):
+            if asteriod.collide(self.ship):
                     self.asteroids.remove(asteriod)
 
             for bullet in self.bullets:
@@ -130,11 +129,3 @@ class Asteroids( Game ):
                     self.asteroids.remove(asteriod)
                     self.bullets.remove(bullet)
 
-                    #if asteriod.name == "M":
-                    #    self.asteroids.remove(asteriod)
-
-                    #elif asteriod.name == "L":
-                    #    
-                    #    self.asteroids.append(newMedium, asteriod.getPosition())
-                    #    self.asteroids.append(newMedium, asteriod.getPosition())
-                    #
