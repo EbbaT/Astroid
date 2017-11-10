@@ -11,7 +11,7 @@ from flying_stones import *
 from star import Star
 from bullet import Bullet
 from bosses import *
-
+from SköldTillskeppet import *
 
 ##
 
@@ -43,6 +43,9 @@ class Asteroids( Game ):
 
         self.bullets = []
 
+        self.shield = []
+
+
         self.myfont = pygame.font.SysFont("monospace", 20, True)
 
         self.life = 3
@@ -62,6 +65,7 @@ class Asteroids( Game ):
         keys_pressed = pygame.key.get_pressed()
         if keys_pressed[K_LEFT] and self.ship:
             self.ship.rotate(-3)
+
         if keys_pressed[K_RIGHT] and self.ship:
             self.ship.rotate(3)
         if keys_pressed[K_UP] and self.ship:
@@ -85,6 +89,18 @@ class Asteroids( Game ):
                 self.ship.teleportShip()
                 self.last = now
 
+        if keys_pressed[K_s] and self.ship:
+
+                self.shield.append(Shield(self.ship.get_x(), self.ship.get_y(), self.ship.get_rotation()))
+
+
+       
+
+
+
+
+
+
     def update_simulation(self):
         """
         update_simulation() causes all objects in the game to update themselves
@@ -103,6 +119,9 @@ class Asteroids( Game ):
 
         for bosses in self.bosses:
             bosses.update(self.width, self.height)
+
+        for shield in self.shield:
+            shield.update(self.width, self.height)
 
 
 
@@ -143,6 +162,9 @@ class Asteroids( Game ):
 
         for bosses in self.bosses:
             bosses.draw( self.screen)
+
+        for shield in self.shield:
+            shield.draw( self.screen)
 
 
 
