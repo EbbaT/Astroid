@@ -25,10 +25,10 @@ class Ship(Polygon):
 
 
     def get_x(self):
-        return self.position.getX()
+        return self.position.x
 
     def get_y(self):
-        return self.position.getY()
+        return self.position.y
 
     def get_rotation(self):
         return self.rotation

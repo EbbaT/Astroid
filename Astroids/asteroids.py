@@ -94,7 +94,7 @@ class Asteroids( Game ):
                 self.shield.append(Shield(self.ship.get_x(), self.ship.get_y(), self.ship.get_rotation()))
 
 
-       
+
 
 
 
@@ -121,7 +121,7 @@ class Asteroids( Game ):
             bosses.update(self.width, self.height)
 
         for shield in self.shield:
-            shield.update(self.width, self.height)
+            shield.update(self.ship.get_x(), self.ship.get_y() )
 
 
 
