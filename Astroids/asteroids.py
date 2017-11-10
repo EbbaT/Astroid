@@ -38,7 +38,7 @@ class Asteroids( Game ):
 
         
         self.bosses = []
-        for i in range(3):
+        for i in range(1):
             self.bosses.append(Bosses())
 
         self.bullets = []
@@ -51,6 +51,8 @@ class Asteroids( Game ):
         self.cooldown = 150
         self.LargeAstroidCounter = 8
         self.tpcd = time.time()
+        self.bosslife = 100
+
 
 
 
@@ -75,7 +77,7 @@ class Asteroids( Game ):
                     self.last = now
                     self.bullets.append(Bullet(self.ship.get_x(), self.ship.get_y(), self.ship.get_rotation()))
 
-        if keys_pressed[K_0] and self.ship:
+        if keys_pressed[K_t] and self.ship:
             now = pygame.time.get_ticks()
             print(now)
             if now - self.last >= 2000:
@@ -150,6 +152,12 @@ class Asteroids( Game ):
         life = self.myfont.render("Life: {}".format(str(self.life)), 1, (255, 255, 0))
         self.screen.blit(life, (525, 30))
 
+        bosslife = self.myfont.render("Bosslife: {}".format(str(self.bosslife)), 1, (0, 255, 0))
+        self.screen.blit(bosslife, (450, 50))
+        self.tpknapp = "T"
+        tpknapp = self.myfont.render("Tpknapp: {}".format(str(self.tpknapp)), 1, (0, 255, 0))
+        self.screen.blit(tpknapp, (10, 50))
+
 
     def handle_collisions(self):
         """
@@ -165,6 +173,7 @@ class Asteroids( Game ):
             if asteriod.contains(self.ship.position):
                     self.asteroids.remove(asteriod)
                     self.life = self.life - 1
+                    self.ship.teleportshiintomidle()
 
             for bullet in self.bullets:
                 if asteriod.contains(bullet.position):
@@ -179,6 +188,17 @@ class Asteroids( Game ):
                         self.asteroids.append(Stones("Medium", asteriod.position.x, asteriod.position.y))
                         self.bullets.remove(bullet)
                         self.score  = self.score + 1
+
+        for boss in self.bosses:
+            if boss.contains(self.ship.position):
+                self.life = self.life - 1
+            for bullets in self.bullets:
+                if boss.contains(bullets.position):
+                    self.bosslife = self.bosslife -1
+                    self.bullets.remove(bullet)
+                if self.bosslife == 0:
+                    self.bosses.remove(boss)
+
 
 
 

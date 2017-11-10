@@ -45,6 +45,12 @@ class Ship(Polygon):
         self.position.y = randint(1,480)
 
 
+    def teleportshiintomidle(self):
+        self.position.x = 320
+        self.position.y = 240
+
+
+
 
         
 
