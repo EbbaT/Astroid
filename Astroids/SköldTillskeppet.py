@@ -4,7 +4,7 @@ class Shield(Circle):
     """Shooting things like a bass"""
 
     def __init__(self, x, y, rot):
-        super().__init__(x, y, 40, rot)
+        super().__init__(x, y, 30, rot)
 
         self.linewidth = 1
 

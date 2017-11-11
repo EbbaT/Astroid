@@ -12,6 +12,8 @@ from star import Star
 from bullet import Bullet
 from bosses import *
 from SköldTillskeppet import *
+import pygame
+from enemyShip import *
 
 ##
 
@@ -24,6 +26,9 @@ class Asteroids( Game ):
 
         self.ship = Ship()
         #  TODO: should create a Ship object here
+
+
+        self.enemyship = Enemyship()
         
         # TODO: should create asteroids
         self.asteroids = []
@@ -38,7 +43,7 @@ class Asteroids( Game ):
 
         
         self.bosses = []
-        for i in range(1):
+        for i in range(0):
             self.bosses.append(Bosses())
 
         self.bullets = []
@@ -55,6 +60,7 @@ class Asteroids( Game ):
         self.LargeAstroidCounter = 8
         self.tpcd = time.time()
         self.bosslife = 100
+        self.skoldcd = pygame.time.Clock()
 
 
 
@@ -101,6 +107,8 @@ class Asteroids( Game ):
 
 
 
+
+
     def update_simulation(self):
         """
         update_simulation() causes all objects in the game to update themselves
@@ -122,6 +130,13 @@ class Asteroids( Game ):
 
         for shield in self.shield:
             shield.update(self.ship.get_x(), self.ship.get_y() )
+
+        if self.enemyship:
+            self.enemyship.update(self.width, self.height)
+            
+            #self.enemyship.followShip(self.ship.get_x(), self.ship.get_y())
+
+
 
 
 
@@ -165,6 +180,9 @@ class Asteroids( Game ):
 
         for shield in self.shield:
             shield.draw( self.screen)
+
+        if self.enemyship:
+            self.enemyship.draw(self.screen)
 
 
 
@@ -217,7 +235,7 @@ class Asteroids( Game ):
             for bullets in self.bullets:
                 if boss.contains(bullets.position):
                     self.bosslife = self.bosslife -1
-                    self.bullets.remove(bullet)
+                    self.bullets.remove(bullets)
                 if self.bosslife == 0:
                     self.bosses.remove(boss)
 
