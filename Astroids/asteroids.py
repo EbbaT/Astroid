@@ -117,13 +117,17 @@ class Asteroids( Game ):
         for bullet in self.bullets:
             bullet.draw( self.screen )
 
-        score = self.myfont.render("Score: {}".format(str(self.score)), 1, (255, 255, 0))
-        self.screen.blit(score, (525,10))
+        score = self.myfont.render("Score: {}".format(str(self.score)), 1, (255, 0, 0))
+        self.screen.blit(score, (400, 5))
 
-        life = self.myfont.render("Life: {}".format(str(self.life)), 1, (255, 255, 0))
-        self.screen.blit(life, (525, 30))
-
-
+        visible_life = self.life
+        if visible_life < 0: visible_life = 0
+        life = self.myfont.render("Life: {}".format(str(visible_life)), 1, (255, 0, 0))
+        self.screen.blit(life, (50, 5))
+        if (self.life < 0):
+            Game_Over = self.myfont.render("Game Over", 1, (255, 0, 0))
+            self.screen.blit(Game_Over, (250, 250))
+            self.ship = None
     def handle_collisions(self):
         """
         handle_collisions() should check:
@@ -135,7 +139,8 @@ class Asteroids( Game ):
         #       using the collission detection methods in all of the shapes
 
 
-
+        if not self.ship:
+            return
         for asteriod in self.asteroids:
             if asteriod.collide(self.ship):
                     self.asteroids.remove(asteriod)
