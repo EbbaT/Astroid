@@ -12,7 +12,9 @@ class Game( ABC ):
         self.name = name
         self.width = width
         self.height = height
-
+        #self.dashboard = pygame.image.load("dashboard.png")
+        self.dashboard = pygame.transform.scale(self.dashboard, (width, 60))
+        #self.blastSound = pygame.mixer.Sound("blaster.wav")
         # Running game state
         self.running = True
 
