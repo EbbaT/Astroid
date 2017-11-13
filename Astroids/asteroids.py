@@ -17,6 +17,8 @@ class Asteroids( Game ):
     Asteroids extends the base class Game to provide logic for the specifics of the game
     """
     def __init__(self, name, width, height):
+
+
         super().__init__( name, width, height )
 
 
@@ -62,6 +64,7 @@ class Asteroids( Game ):
                 self.last = now
                 if len(self.bullets) <= 10:
                     self.last = now
+                    self.blastSound.play()
                     self.bullets.append(Bullet(self.ship.get_x(), self.ship.get_y(), self.ship.get_rotation()))
                 
 
@@ -118,7 +121,7 @@ class Asteroids( Game ):
             bullet.draw( self.screen )
 
         score = self.myfont.render("Score: {}".format(str(self.score)), 1, (255, 0, 0))
-        self.screen.blit(score, (400, 5))
+        self.screen.blit(score, (390, 5))
 
         visible_life = self.life
         if visible_life < 0: visible_life = 0

@@ -20,5 +20,3 @@ class Point:
 
     def distanceFromOrigin(self):
         return math.sqrt( self.x**2 + self.y**2 )
-
-
