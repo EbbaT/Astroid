@@ -73,8 +73,6 @@ class Polygon(Shape):
 
         return math.fabs( sum/2 )
 
-
-
     def findCenter(self):
         """
         Computes the center point of the polygon - helps us rotate polygons more nicely

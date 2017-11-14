@@ -13,9 +13,6 @@ from bullet import Bullet
 
 
 class Asteroids( Game ):
-    """
-    Asteroids extends the base class Game to provide logic for the specifics of the game
-    """
     def __init__(self, name, width, height):
 
 
@@ -25,14 +22,13 @@ class Asteroids( Game ):
         self.ship = Ship()
 
         self.asteroids = []
-        for i in range(8):
-            self.asteroids.append(Stones(False))
+        for i in range(4):
+            self.asteroids.append(Stones())
         
         self.stars=[]
-        for i in range(100):
+        for i in range(30):
             self.stars.append(Star())
         
-
         self.bullets = []
 
         self.myfont = pygame.font.SysFont("monospace", 20, True)
@@ -48,13 +44,13 @@ class Asteroids( Game ):
         keys_pressed = pygame.key.get_pressed()
 
         if (keys_pressed[K_LEFT] or keys_pressed[K_a]) and self.ship:
-            self.ship.rotate(-3)
+            self.ship.rotate(-5)
 
         if (keys_pressed[K_RIGHT] or keys_pressed[K_d]) and self.ship:
-            self.ship.rotate(3)
+            self.ship.rotate(5)
 
         if (keys_pressed[K_UP] or keys_pressed[K_w]) and self.ship:
-            self.ship.accelerate(0.05)
+            self.ship.accelerate(0.5)
 
         if (keys_pressed[K_DOWN] or keys_pressed[K_s]) and self.ship:
             self.ship.accelerate(0)
@@ -72,11 +68,6 @@ class Asteroids( Game ):
 
     def update_simulation(self):
 
-        """
-        update_simulation() causes all objects in the game to update themselves
-        """
-
-
         super().update_simulation()
 
         if self.ship:
@@ -84,11 +75,8 @@ class Asteroids( Game ):
 
         for asteroid in self.asteroids:
             asteroid.update( self.width, self.height )
-            if len(self.asteroids) < 8:
-                self.asteroids.append(Stones())
-
-        #for star in self.stars:
-            #star.update( self.width, self.height )
+            if len(self.asteroids) < 4:
+                self.asteroids.append(Stones(asteroid.newStoneX(), asteroid.newStoneY()))
 
         for bullet in self.bullets:
             if bullet.update(self.width, self.height) == True:
@@ -96,10 +84,10 @@ class Asteroids( Game ):
 
         self.handle_collisions()
 
+        #self.asteroid_collision()
+        #Avkommentera för långsammare program med Asteroid collision
+
     def render_objects(self):
-        """
-        render_objects() causes all objects in the game to draw themselves onto the screen
-        """
         super().render_objects()
 
 
@@ -131,29 +119,36 @@ class Asteroids( Game ):
 
 
     def handle_collisions(self):
-        """
-        handle_collisions() should check:
-            - if our ship has crashed into an asteroid (the ship gets destroyed - game over!)
-            - if a bullet has hit an asteroid (the asteroid gets destroyed)
-        :return: 
-        """
-
 
         if not self.ship:
             return
 
         for asteriod in self.asteroids:
             if asteriod.collide(self.ship):
-                    self.asteroids.remove(asteriod)
-                    self.life = self.life - 1
-
+                self.asteroids.remove(asteriod)
+                self.life = self.life - 1
             for bullet in self.bullets:
                 if asteriod.contains(bullet.position):
                     if asteriod.name == "L":
                         self.asteroids.remove(asteriod)
-                        #self.asteroids.append(Stones("M"))
-                        #Anton har all this med små stenar
+                        self.asteroids.append(Stones((asteriod.position.x - 10), (asteriod.position.y + 10), "M"))
+                        self.asteroids.append(Stones((asteriod.position.x + 10), (asteriod.position.y - 10), "M"))
+                    elif asteriod.name == "M":
+                        self.asteroids.remove(asteriod)
                     self.bullets.remove(bullet)
-                    self.score += 10
-                    #Hur mycket score ska man få per sten yo? o:
+                    self.score += 100
 
+
+    def asteroid_collision(self):
+
+        #Asteroid-collision, endast stenar! :D
+
+        for i in range(len(self.asteroids)):
+
+            for j in range(len(self.asteroids)):
+
+                if self.asteroids[i] != self.asteroids[j]:
+                    if self.asteroids[i].collide(self.asteroids[j]):
+
+                        self.asteroids[j].invertPull()
+                        self.asteroids[i].invertPull

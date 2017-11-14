@@ -9,8 +9,8 @@ class Stones(Polygon):
 
     """Asteroidsssss"""
 
-    def __init__(self, bool=True, name="L"):
-        
+    def __init__(self, x=0, y=0, name="L"):
+
         self.big = pygame.image.load("asteroid_test_stone1.png")
         self.medium = pygame.image.load("asteroid_test_stone2.png")
 
@@ -24,36 +24,49 @@ class Stones(Polygon):
         if self.name == "L":
             self.points = big
             self.picture = self.big
-
-            if bool == False:
+            if x == 0 and y == 0:
                 self.position = Point(random.randrange(0, 640, 5), random.randrange(0, 480, 5))
-                #Startposition
+            #Startposition
+            else:
+                self.position = random.choice([x, y])
 
-            elif bool == True:
-                self.newStone()
-
-        if self.name == "M":
-            pass
-
+        elif self.name == "M":
+            self.points = medium
+            self.picture = self.medium
+            self.getPos(x, y)
 
         self.rotation = random.randrange(0, 359, 15)
         #Hur snabbt asteroiden roterar
 
-        self.pull = Point(round(random.uniform(-1, 1), 1), round(random.uniform(-1, 1), 1))
+        self.pull = Point(round(random.uniform(-1, 1), 2), round(random.uniform(-1, 1), 2))
         #Vilken hastighet den åker i
 
         self.angular_velocity = round(random.uniform(-1, 1), 1)
         #Hur mycket den ska rotera i varje steg
 
 
-    def newStone(self):
+    def newStoneX(self):
 
         posx = Point(random.randrange(0, 640, 5), 0)
-        posy = Point(0, random.randrange(0, 480, 5))
-        self.position = random.choice([posx, posy])
 
+        return posx
+
+    def newStoneY(self):
+        posy = Point(0, random.randrange(0, 480, 5))
+            
+        return posy
+
+    def getPos(self, x, y):
+        posx = x
+        posy = y
+
+        self.position = Point(posx, posy)
         return self.position
 
+    def invertPull(self):
+        self.pull = Point(round(random.uniform(1, -1), 2), round(random.uniform(1, -1), 2))
+
+        return self.pull
 
 
         
