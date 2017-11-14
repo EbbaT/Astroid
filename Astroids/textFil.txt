@@ -1,0 +1,32 @@
+**************************************************************************
+					Asteroids - Grupparbete
+**************************************************************************
+						let's do this buoys
+##########################################################################
+Stuff to finish:
+	Antons boss stuff
+		Säg till om du vill ha hjälp brother
+
+	Fixa till så att ljudet faktiskt fungerar
+	En option att kunna starta direkt från fönstret?
+	Collision mellan två asteroider
+		typ fixat, commitat och skrivit kommentar om det.
+
+	Invisibility time innan man kan bli träffad igen?
+
+	Om ni kommer på andra saker skriv det.
+
+##########################################################################
+
+Finished:
+	Asteroider
+		Mindre asteroider när large astroid blivit nerskjuten
+		Spawnar inte stora i mitten av skärmen
+	Skäppet
+	Sprites med collision
+	Bullets
+		Timer mellan skott
+	Lives/Scores samt GameOver screen!
+
+##########################################################################
+							Atari2600 - 1979
