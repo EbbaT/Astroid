@@ -9,23 +9,21 @@ class Stones(Polygon):
 
     """Asteroidsssss"""
 
-    def __init__(self, bool):
+    def __init__(self, bool=True, name="L"):
         
         self.big = pygame.image.load("asteroid_test_stone1.png")
         self.medium = pygame.image.load("asteroid_test_stone2.png")
 
-        self.name = "L"
-
         self.big = pygame.transform.scale(self.big, (60,60) )
         self.medium = pygame.transform.scale( self.medium, (40,40) )
+        self.name = name
 
         medium = [Point(0, 18), Point(-15, 5), Point(0, -13) , Point(20, -13), Point(20, 5) ]
         big = [Point(20, 20), Point(-15, 20), Point(-25, 10) ,Point(-10, -20) ,Point(20, -15), Point(30, 0)]
 
-        self.picture = self.big
-
-        if self.picture == self.big:
+        if self.name == "L":
             self.points = big
+            self.picture = self.big
 
             if bool == False:
                 self.position = Point(random.randrange(0, 640, 5), random.randrange(0, 480, 5))
@@ -34,11 +32,10 @@ class Stones(Polygon):
             elif bool == True:
                 self.newStone()
 
+        if self.name == "M":
+            pass
 
-        elif self.picture == self.medium:
-            self.points = medium
 
-        
         self.rotation = random.randrange(0, 359, 15)
         #Hur snabbt asteroiden roterar
 
@@ -57,10 +54,6 @@ class Stones(Polygon):
 
         return self.position
 
-    def mediumStone(self, position):
-        self.name = "M"
-        self.picture = self.medium
-        self.position = position
 
 
         

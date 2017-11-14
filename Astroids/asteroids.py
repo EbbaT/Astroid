@@ -23,15 +23,11 @@ class Asteroids( Game ):
 
 
         self.ship = Ship()
-        #  TODO: should create a Ship object here
 
-
-        # TODO: should create asteroids
         self.asteroids = []
         for i in range(8):
             self.asteroids.append(Stones(False))
         
-        # TODO: should create stars
         self.stars=[]
         for i in range(100):
             self.stars.append(Star())
@@ -46,25 +42,30 @@ class Asteroids( Game ):
         self.last = pygame.time.get_ticks()
         self.cooldown = 150
 
+
     def handle_input(self):
         super().handle_input()
         keys_pressed = pygame.key.get_pressed()
+
         if (keys_pressed[K_LEFT] or keys_pressed[K_a]) and self.ship:
             self.ship.rotate(-3)
+
         if (keys_pressed[K_RIGHT] or keys_pressed[K_d]) and self.ship:
             self.ship.rotate(3)
+
         if (keys_pressed[K_UP] or keys_pressed[K_w]) and self.ship:
             self.ship.accelerate(0.05)
+
         if (keys_pressed[K_DOWN] or keys_pressed[K_s]) and self.ship:
             self.ship.accelerate(0)
+
         if keys_pressed[K_SPACE] and self.ship:
-            # TODO: should create a bullet when the user fires
             now = pygame.time.get_ticks()
             if now - self.last >= self.cooldown:
                 self.last = now
                 if len(self.bullets) <= 10:
                     self.last = now
-                    self.blastSound.play()
+                    #self.blastSound.play()
                     self.bullets.append(Bullet(self.ship.get_x(), self.ship.get_y(), self.ship.get_rotation()))
                 
 
@@ -84,18 +85,15 @@ class Asteroids( Game ):
         for asteroid in self.asteroids:
             asteroid.update( self.width, self.height )
             if len(self.asteroids) < 8:
-                self.asteroids.append(Stones(True))
+                self.asteroids.append(Stones())
 
         #for star in self.stars:
             #star.update( self.width, self.height )
 
-        # TODO: should probably call update on our bullet/bullets here
         for bullet in self.bullets:
             if bullet.update(self.width, self.height) == True:
                     self.bullets.remove(bullet)
 
-
-        # TODO: should probably work out how to remove a bullet when it gets old
         self.handle_collisions()
 
     def render_objects(self):
@@ -103,19 +101,18 @@ class Asteroids( Game ):
         render_objects() causes all objects in the game to draw themselves onto the screen
         """
         super().render_objects()
-        # Render the ship:
+
 
         if self.ship:
             self.ship.draw( self.screen )
-        # Render all the stars, if any:
+
 
         for star in self.stars:
             star.draw( self.screen )
-        # Render all the asteroids, if any:
+
 
         for asteroid in self.asteroids:
             asteroid.draw( self.screen )
-        # Render all the bullet, if any:
 
         for bullet in self.bullets:
             bullet.draw( self.screen )
@@ -131,6 +128,8 @@ class Asteroids( Game ):
             Game_Over = self.myfont.render("Game Over", 1, (255, 0, 0))
             self.screen.blit(Game_Over, (250, 250))
             self.ship = None
+
+
     def handle_collisions(self):
         """
         handle_collisions() should check:
@@ -138,18 +137,23 @@ class Asteroids( Game ):
             - if a bullet has hit an asteroid (the asteroid gets destroyed)
         :return: 
         """
-        # TODO: implement collission detection,
-        #       using the collission detection methods in all of the shapes
 
 
         if not self.ship:
             return
+
         for asteriod in self.asteroids:
             if asteriod.collide(self.ship):
                     self.asteroids.remove(asteriod)
                     self.life = self.life - 1
+
             for bullet in self.bullets:
                 if asteriod.contains(bullet.position):
-                    self.asteroids.remove(asteriod)
+                    if asteriod.name == "L":
+                        self.asteroids.remove(asteriod)
+                        #self.asteroids.append(Stones("M"))
+                        #Anton har all this med små stenar
                     self.bullets.remove(bullet)
+                    self.score += 10
+                    #Hur mycket score ska man få per sten yo? o:
 
