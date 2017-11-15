@@ -11,6 +11,11 @@ from point import Point
 from flying_stones import Stones
 from star import Star
 from bullet import Bullet
+from shieldtoship import Shield
+from enemyship import Enemyship
+from enemybullet import Enemybullet
+
+
 
 class Asteroids( Game ):
     def __init__(self, name, width, height):
@@ -29,10 +34,20 @@ class Asteroids( Game ):
         
         self.bullets = []
 
+        self.enemybullets = []
+
+
+        self.shield = []
+
+        self.enemyship = Enemyship()
+
+        self.myfont = pygame.font.SysFont("monospace", 20, True)
+
         self.life = 3
         self.score = 0
         self.last = pygame.time.get_ticks()
         self.cooldown = 150
+
 
 
     def handle_input(self):
@@ -62,10 +77,28 @@ class Asteroids( Game ):
                     self.blastSound.play()
                     self.bullets.append(Bullet(self.ship.get_x(), self.ship.get_y(), self.ship.get_rotation()))
 
+        if (keys_pressed[K_t]) and self.ship:
+            now = pygame.time.get_ticks()
+            print(now)
+            if now - self.last >= 2000:
+                self.ship.teleportShip()
+                self.last = now
+
+        if keys_pressed[K_s] and self.ship:
+
+                self.shield.append(Shield(self.ship.get_x(), self.ship.get_y(), self.ship.get_rotation()))
+
+        if keys_pressed[K_b] and self.ship:
+            self.bullets.append(Enemybullet(self.enemyship.getE_x(), self.enemyship.getE_y(), self.enemyship.getE_rotation()))
+
+
 
     def update_simulation(self):
 
         super().update_simulation()
+
+        if self.enemyship:
+            self.enemyship.update(self.width, self.height)
 
         if self.ship:
             self.ship.update( self.width, self.height )
@@ -81,10 +114,19 @@ class Asteroids( Game ):
             if bullet.update(self.width, self.height) == True:
                     self.bullets.remove(bullet)
 
+        for bullet in self.enemybullets:
+            if bullet.update(self.width, self.height) == True:
+                    self.bullets.remove()
+
         self.handle_collisions()
 
         self.asteroid_collision()
         #Asteroid-collision, utan = snabbare, med mycket coolare
+        self.shieldCollision()
+
+        for shield in self.shield:
+            shield.update(self.ship.get_x(), self.ship.get_y() )
+
 
     def render_objects(self):
         super().render_objects()
@@ -101,9 +143,20 @@ class Asteroids( Game ):
         for bullet in self.bullets:
             bullet.draw( self.screen )
 
+        for shield in self.shield:
+            shield.draw(self.screen)
+
+        for enemybullet in self.enemybullets:
+            enemybullet.draw(self.screen)
+
+        if self.enemyship:
+            self.enemyship.draw(self.screen)
+
 
         score = self.myfont.render("Score: {}".format(str(self.score)), 1, (255, 0, 0))
         self.screen.blit(score, (500, 5)) #500 i lådan, 650 utanför i fall att vi vill ha någonting annat där
+
+
 
 
         visible_life = self.life
@@ -132,6 +185,8 @@ class Asteroids( Game ):
                         self.asteroids.remove(asteriod)
                         self.asteroids.append(Stones((asteriod.position.x -20), (asteriod.position.y + 20), "M"))
                         self.asteroids.append(Stones((asteriod.position.x + 20), (asteriod.position.y - 20), "M"))
+
+
                     elif asteriod.name == "M":
                         self.asteroids.remove(asteriod)
                     self.bullets.remove(bullet)
@@ -146,6 +201,25 @@ class Asteroids( Game ):
                     if self.asteroids[i].collide(self.asteroids[j]):
                         self.asteroids[j].invertPull()
                         self.asteroids[i].invertPull()
+
+    def shieldCollision(self):
+
+        for asteroid in self.asteroids:
+            if asteroid.collide(self.ship):
+                self.asteroids.remove(asteroid)
+            for shield in self.shield:
+                if shield.shielddetection(asteroid):
+                    self.shield.remove(shield)
+
+
+
+
+
+
+
+
+
+
 
 
     def gameOver(self):
