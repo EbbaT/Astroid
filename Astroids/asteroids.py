@@ -89,7 +89,8 @@ class Asteroids( Game ):
                 self.shield.append(Shield(self.ship.get_x(), self.ship.get_y(), self.ship.get_rotation()))
 
         if keys_pressed[K_b] and self.ship:
-            self.bullets.append(Enemybullet(self.enemyship.getE_x(), self.enemyship.getE_y(), self.enemyship.getE_rotation()))
+            if len(self.enemybullets)==0 or self.enemybullets[-1].age() > 2000:
+                self.enemybullets.append(Enemybullet(self.enemyship.getE_x(), self.enemyship.getE_y(), self.enemyship.getE_rotation()))
 
 
 
@@ -117,7 +118,7 @@ class Asteroids( Game ):
 
         for bullet in self.enemybullets:
             if bullet.update(self.width, self.height) == True:
-                    self.bullets.remove()
+                    self.enemybullets.remove(bullet)
 
         self.handle_collisions()
 
