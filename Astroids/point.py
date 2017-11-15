@@ -20,3 +20,6 @@ class Point:
 
     def distanceFromOrigin(self):
         return math.sqrt( self.x**2 + self.y**2 )
+    def getAngleBetwen(self,otherpoint):
+
+        return math.atan2(otherpoint.y - self.y, otherpoint.x - self.x) *180 / 3.145

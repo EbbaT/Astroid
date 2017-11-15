@@ -97,8 +97,9 @@ class Asteroids( Game ):
 
         super().update_simulation()
 
-        if self.enemyship:
+        if self.enemyship and self.ship:
             self.enemyship.update(self.width, self.height)
+            self.enemyship.rotation = Point(self.enemyship.getE_x(),self.enemyship.getE_y()).getAngleBetwen( self.ship.position)
 
         if self.ship:
             self.ship.update( self.width, self.height )
@@ -122,7 +123,8 @@ class Asteroids( Game ):
 
         self.asteroid_collision()
         #Asteroid-collision, utan = snabbare, med mycket coolare
-        self.shieldCollision()
+        if self.ship:
+            self.shieldCollision()
 
         for shield in self.shield:
             shield.update(self.ship.get_x(), self.ship.get_y() )
@@ -225,7 +227,7 @@ class Asteroids( Game ):
     def gameOver(self):
         #Game over skärmen!
 
-        clock = pygame.time.get_ticks()
+
 
         Game_Over = self.myfont.render("Game Over", 1, (255, 0, 0))
         onRestart = self.myfont.render("Press [R] to restart!", 2, (255, 255, 255))

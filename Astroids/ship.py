@@ -9,9 +9,11 @@ class Ship(Polygon):
 
     """Player Ship"""
 
-    def __init__(self):
-
-        self.ship_image = pygame.image.load("test_fighter.png")
+    def __init__(self, ship_image=None):
+        if not ship_image:
+            self.ship_image = pygame.image.load("test_fighter.png")
+        else:
+            self.ship_image = ship_image
         #self.ship_image = pygame.image.load("falcon2.png")
         #Min not so good Falcon ;_;
         self.ship_image = pygame.transform.scale( self.ship_image, (50,50) )
