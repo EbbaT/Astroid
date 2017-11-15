@@ -3,6 +3,7 @@ import random
 import pygame
 from pygame.locals import *
 import time
+from itertools import cycle
 
 from game import Game
 from ship import Ship
@@ -11,13 +12,10 @@ from flying_stones import Stones
 from star import Star
 from bullet import Bullet
 
-
 class Asteroids( Game ):
     def __init__(self, name, width, height):
 
-
         super().__init__( name, width, height )
-
 
         self.ship = Ship()
 
@@ -31,8 +29,6 @@ class Asteroids( Game ):
         
         self.bullets = []
 
-        self.myfont = pygame.font.SysFont("monospace", 20, True)
-
         self.life = 3
         self.score = 0
         self.last = pygame.time.get_ticks()
@@ -42,6 +38,8 @@ class Asteroids( Game ):
     def handle_input(self):
         super().handle_input()
         keys_pressed = pygame.key.get_pressed()
+
+        self.restart = keys_pressed[K_r]
 
         if (keys_pressed[K_LEFT] or keys_pressed[K_a]) and self.ship:
             self.ship.rotate(-5)
@@ -63,7 +61,6 @@ class Asteroids( Game ):
                     self.last = now
                     self.blastSound.play()
                     self.bullets.append(Bullet(self.ship.get_x(), self.ship.get_y(), self.ship.get_rotation()))
-                
 
 
     def update_simulation(self):
@@ -98,7 +95,6 @@ class Asteroids( Game ):
         for star in self.stars:
             star.draw( self.screen )
 
-
         for asteroid in self.asteroids:
             asteroid.draw( self.screen )
 
@@ -107,16 +103,15 @@ class Asteroids( Game ):
 
 
         score = self.myfont.render("Score: {}".format(str(self.score)), 1, (255, 0, 0))
-        self.screen.blit(score, (650, 5))
+        self.screen.blit(score, (500, 5)) #500 i lådan, 650 utanför i fall att vi vill ha någonting annat där
+
 
         visible_life = self.life
         if visible_life < 0: visible_life = 0
         life = self.myfont.render("Life: {}".format(str(visible_life)), 1, (255, 0, 0))
-        self.screen.blit(life, (50, 5))
+        self.screen.blit(life, (70, 5))
         if (self.life < 0):
-            Game_Over = self.myfont.render("Game Over", 1, (255, 0, 0))
-            self.screen.blit(Game_Over, (250, 250))
-            self.ship = None
+            self.gameOver()
 
 
     def handle_collisions(self):
@@ -126,8 +121,11 @@ class Asteroids( Game ):
 
         for asteriod in self.asteroids:
             if asteriod.collide(self.ship):
+
                 self.asteroids.remove(asteriod)
                 self.life = self.life - 1
+                        #Vänta tills nästa hit, så att man inte kan förlora alla liv på en gång
+
             for bullet in self.bullets:
                 if asteriod.contains(bullet.position):
                     if asteriod.name == "L":
@@ -148,3 +146,21 @@ class Asteroids( Game ):
                     if self.asteroids[i].collide(self.asteroids[j]):
                         self.asteroids[j].invertPull()
                         self.asteroids[i].invertPull()
+
+
+    def gameOver(self):
+        #Game over skärmen!
+
+        clock = pygame.time.get_ticks()
+
+        Game_Over = self.myfont.render("Game Over", 1, (255, 0, 0))
+        onRestart = self.myfont.render("Press [R] to restart!", 2, (255, 255, 255))
+        offRestart = self.myfont.render("Press [R] to restart!", 2, (150, 150, 150))
+        self.screen.blit(Game_Over, (350, 250))
+
+        self.screen.blit(onRestart, (280, 290))
+        self.ship = None
+
+            
+        
+            
