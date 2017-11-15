@@ -16,7 +16,7 @@ class Enemybullet(Circle):
 
         self.rotation = rot
 
-        self.accelerate(10)
+        self.accelerate(7)
 
         self.angular_velocity = 0
 
