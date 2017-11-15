@@ -17,9 +17,11 @@ class Ship(Polygon):
 
         size = [Point(-17,-20), Point(10, -20), Point(25, -2), Point(0, 20),Point(-20, 15), Point(-25, 0) ]
 
-        super().__init__(self.ship_image, size, 320, 240, 0)
+        super().__init__(self.ship_image, size, 400, 300, 0)
 
         self.pull = Point(0, -0.1)
+        #En liten pull uppåt när man startar spelet
+
         self.angular_velocity = 0.0
 
 

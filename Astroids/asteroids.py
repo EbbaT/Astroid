@@ -22,7 +22,7 @@ class Asteroids( Game ):
         self.ship = Ship()
 
         self.asteroids = []
-        for i in range(4):
+        for i in range(6):
             self.asteroids.append(Stones())
         
         self.stars=[]
@@ -61,7 +61,7 @@ class Asteroids( Game ):
                 self.last = now
                 if len(self.bullets) <= 10:
                     self.last = now
-                    #self.blastSound.play()
+                    self.blastSound.play()
                     self.bullets.append(Bullet(self.ship.get_x(), self.ship.get_y(), self.ship.get_rotation()))
                 
 
@@ -73,10 +73,12 @@ class Asteroids( Game ):
         if self.ship:
             self.ship.update( self.width, self.height )
 
-        for asteroid in self.asteroids:
-            asteroid.update( self.width, self.height )
-            if len(self.asteroids) < 4:
-                self.asteroids.append(Stones(asteroid.newStoneX(), asteroid.newStoneY()))
+        if self.forth == 2:
+            for asteroid in self.asteroids:
+                asteroid.update( self.width, self.height )
+                if len(self.asteroids) < 6:
+                    self.asteroids.append(Stones(asteroid.newStoneX(), asteroid.newStoneY()))
+            self.forth = 0
 
         for bullet in self.bullets:
             if bullet.update(self.width, self.height) == True:
@@ -84,16 +86,14 @@ class Asteroids( Game ):
 
         self.handle_collisions()
 
-        #self.asteroid_collision()
-        #Avkommentera för långsammare program med Asteroid collision
+        self.asteroid_collision()
+        #Asteroid-collision, utan = snabbare, med mycket coolare
 
     def render_objects(self):
         super().render_objects()
 
-
         if self.ship:
             self.ship.draw( self.screen )
-
 
         for star in self.stars:
             star.draw( self.screen )
@@ -105,8 +105,9 @@ class Asteroids( Game ):
         for bullet in self.bullets:
             bullet.draw( self.screen )
 
+
         score = self.myfont.render("Score: {}".format(str(self.score)), 1, (255, 0, 0))
-        self.screen.blit(score, (390, 5))
+        self.screen.blit(score, (650, 5))
 
         visible_life = self.life
         if visible_life < 0: visible_life = 0
@@ -131,24 +132,19 @@ class Asteroids( Game ):
                 if asteriod.contains(bullet.position):
                     if asteriod.name == "L":
                         self.asteroids.remove(asteriod)
-                        self.asteroids.append(Stones((asteriod.position.x - 10), (asteriod.position.y + 10), "M"))
-                        self.asteroids.append(Stones((asteriod.position.x + 10), (asteriod.position.y - 10), "M"))
+                        self.asteroids.append(Stones((asteriod.position.x -20), (asteriod.position.y + 20), "M"))
+                        self.asteroids.append(Stones((asteriod.position.x + 20), (asteriod.position.y - 20), "M"))
                     elif asteriod.name == "M":
                         self.asteroids.remove(asteriod)
                     self.bullets.remove(bullet)
-                    self.score += 100
+                    self.score += 10
 
 
     def asteroid_collision(self):
-
         #Asteroid-collision, endast stenar! :D
-
         for i in range(len(self.asteroids)):
-
             for j in range(len(self.asteroids)):
-
-                if self.asteroids[i] != self.asteroids[j]:
+                if self.asteroids[i] != self.asteroids[j] and self.asteroids[i].distanceBetweenPosition(self.asteroids[j]) < 60:
                     if self.asteroids[i].collide(self.asteroids[j]):
-
                         self.asteroids[j].invertPull()
-                        self.asteroids[i].invertPull
+                        self.asteroids[i].invertPull()

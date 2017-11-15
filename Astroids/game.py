@@ -13,15 +13,14 @@ class Game( ABC ):
         self.width = width
         self.height = height
 
-        self.dashboard = pygame.image.load("dashboard.png")
-        self.dashboard = pygame.transform.scale(self.dashboard, (width, 60))
-        #self.blastSound = pygame.mixer.Sound("blaster.wav")
+        
         
         # Running game state
         self.running = True
 
         # Keep track of how many times we have drawn a frame in the game:
         self.frame = 0
+        self.forth = 0
 
         # create graphical frame
         pygame.display.init()
@@ -31,6 +30,10 @@ class Game( ABC ):
 
         # Store the screen object for drawing too
         self.screen = pygame.display.set_mode([width,height])
+
+        self.dashboard = pygame.image.load("dashboard.png")
+        self.dashboard = pygame.transform.scale(self.dashboard, (width, 60))
+        self.blastSound = pygame.mixer.Sound("blaster.wav")
 
     def runGame(self):
         # Our "infinite" loop for the game logic and drawing
@@ -59,6 +62,7 @@ class Game( ABC ):
 
     def update_simulation(self):
         self.frame += 1
+        self.forth += 1
 
     @abstractmethod
     def render_objects(self):

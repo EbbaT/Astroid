@@ -12,7 +12,7 @@ class Star(Circle):
         self.color = (255,255,255)
 
 
-        self.position = Point(random.randrange(0, 640, 5), random.randrange(0, 480, 5))
+        self.position = Point(random.randrange(0, 800, 5), random.randrange(0, 600, 5))
         #Startposition
 
         self.rotation = 0
