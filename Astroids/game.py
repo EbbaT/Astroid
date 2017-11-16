@@ -1,4 +1,4 @@
-import sys
+import sys, os
 import pygame
 from pygame.locals import *
 
@@ -13,8 +13,6 @@ class Game( ABC ):
         self.width = width
         self.height = height
 
-        
-        
         # Running game state
         self.running = True
 
@@ -38,6 +36,7 @@ class Game( ABC ):
         self.myfont = pygame.font.SysFont("monospace", 20, True)
         self.smallFont = pygame.font.SysFont("monospace", 13, True)
         self.info = self.smallFont.render("Press [i] at any time to show information", 1, (255, 255, 255))
+
 
     def runGame(self):
         # Our "infinite" loop for the game logic and drawing
@@ -74,7 +73,9 @@ class Game( ABC ):
             self.runGame()
 
         if keys_pressed[K_i]:
+            #Ska visa textFil.txt
             pass
+
 
     def update_simulation(self):
         self.frame += 1
@@ -83,6 +84,7 @@ class Game( ABC ):
     @abstractmethod
     def render_objects(self):
         pass
+
 
 
 
