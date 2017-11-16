@@ -111,7 +111,7 @@ class Asteroids( Game ):
 
         if self.ship:
             self.ship.update( self.width, self.height )
-            self.shieldCollision()
+
 
         if self.forth == 2:
             for asteroid in self.asteroids:
@@ -193,11 +193,14 @@ class Asteroids( Game ):
             return
 
         for asteriod in self.asteroids:
+            for shield in self.shield:
+                if shield.contains(asteriod.position):
+                    self.asteroids.remove(asteriod)
+                    self.shield.remove(shield)
+                    
             if asteriod.collide(self.ship):
-
-                self.asteroids.remove(asteriod)
                 self.life = self.life - 1
-                        #Vänta tills nästa hit, så att man inte kan förlora alla liv på en gång
+                self.asteroids.remove(asteriod)
 
             for bullet in self.bullets:
                 if asteriod.contains(bullet.position):
@@ -205,11 +208,12 @@ class Asteroids( Game ):
                         self.asteroids.remove(asteriod)
                         self.asteroids.append(Stones((asteriod.position.x -20), (asteriod.position.y + 20), "M"))
                         self.asteroids.append(Stones((asteriod.position.x + 20), (asteriod.position.y - 20), "M"))
-
                     elif asteriod.name == "M":
                         self.asteroids.remove(asteriod)
                     self.bullets.remove(bullet)
                     self.score += 10
+
+                
 
 
     def asteroid_collision(self):
@@ -221,22 +225,17 @@ class Asteroids( Game ):
                         self.asteroids[j].invertPull()
                         self.asteroids[i].invertPull() 
 
-    def shieldCollision(self):
-
-        for asteroid in self.asteroids:
-            if asteroid.collide(self.ship):
-                self.asteroids.remove(asteroid)
-            for shield in self.shield:
-                if shield.shielddetection(asteroid):
-                    self.shield.remove(shield)
-
     def enemyBulletCollideWithShip(self):
         if not self.ship:
             return
+
         for bullet in self.enemybullets:
-            if self.ship.contains(bullet.position):
-                self.enemybullets.remove(bullet)
-                self.life = self.life -1
+            for shield in self.shield:
+                if shield.contains(bullet.position):
+                    self.shield.remove(shield)
+                elif self.ship.contains(bullet.position) and len(self.shield) == 0:
+                    self.enemybullets.remove(bullet)
+                    self.life = self.life -1
 
 
     def bulletColideWithEnemyShip(self):

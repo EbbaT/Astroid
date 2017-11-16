@@ -34,13 +34,12 @@ class Circle(Shape):
         return pointDistanceFromCircleOrigin <= self.radius
 
     def shielddetection(self, poly):
+        pass
+        #points = poly.getRotatedPoints()
 
+        #for p in points:
+        #    if self.contains(p):
+        #        return True
 
-        points = poly.getRotatedPoints()
-
-        for p in points:
-            if self.contains(p):
-                return True
-
-        return False
+        #return False
 

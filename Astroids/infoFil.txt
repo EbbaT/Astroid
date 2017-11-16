@@ -22,7 +22,9 @@ Controls:
 
 	Shield:
 		S-key
-		Creates a shield around your ship, once it's hit it dissapears
+		Creates a shield around your ship, it can take two hits
+		against the asteroids, but once hit from the enemyship it's
+		gone. 
 		We're going to add so that you may only use it once in a while
 
 	Teleport:
