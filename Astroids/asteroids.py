@@ -146,6 +146,8 @@ class Asteroids( Game ):
 
         self.enemyBulletCollideWithShip()
 
+        self.enemyShipShoting()
+
 
     def render_objects(self):
         super().render_objects()
@@ -254,6 +256,12 @@ class Asteroids( Game ):
                 self.bullets.remove(bullet)
                 self.enemyship = None
 
+
+    def enemyShipShoting(self):
+        if self.enemyship:
+            if len(self.enemybullets) == 0 or self.enemybullets[-1].age() > 2000:
+                self.enemybullets.append(
+                    Enemybullet(self.enemyship.get_x(), self.enemyship.get_y(), self.enemyship.get_rotation()))
 
 
 
