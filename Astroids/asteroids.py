@@ -62,9 +62,9 @@ class Asteroids( Game ):
     def handle_input(self):
         super().handle_input()
         keys_pressed = pygame.key.get_pressed()
-        self.spawnenemyship = random.randint(1, 400)
+        self.spawnenemyship = random.randint(1, 100)
         print(self.spawnenemyship)
-        if self.spawnenemyship == 200:
+        if self.spawnenemyship == 40:
             self.enemyship = Enemyship()
 
 
@@ -145,6 +145,8 @@ class Asteroids( Game ):
 
         self.enemyBulletCollideWithShip()
         #Asteroid-collision, utan = snabbare, med mycket coolare
+
+        self.enemyShipShooting()
         if self.ship:
             self.shieldCollision()
 
@@ -258,6 +260,11 @@ class Asteroids( Game ):
                 self.bullets.remove(bullet)
                 self.enemyship = None
 
+
+    def enemyShipShooting(self):
+        if self.enemyship:
+            if len(self.enemybullets)==0 or self.enemybullets[-1].age() > 2000:
+                self.enemybullets.append(Enemybullet(self.enemyship.get_x(), self.enemyship.get_y(), self.enemyship.get_rotation()))
 
 
 
