@@ -41,7 +41,10 @@ class Asteroids( Game ):
 
 
         self.enemyship = Enemyship()
+
         self.enemyship = None
+
+
 
 
         self.myfont = pygame.font.SysFont("monospace", 20, True)
@@ -50,6 +53,7 @@ class Asteroids( Game ):
         self.score = 0
         self.last = pygame.time.get_ticks()
         self.cooldown = 150
+        self.spawnenemyship = 0
 
 
 
@@ -58,8 +62,10 @@ class Asteroids( Game ):
     def handle_input(self):
         super().handle_input()
         keys_pressed = pygame.key.get_pressed()
-        self.spawnenemyship = random.randint(1, 100)
+        self.spawnenemyship = random.randint(1, 400)
         print(self.spawnenemyship)
+        if self.spawnenemyship == 200:
+            self.enemyship = Enemyship()
 
 
 
@@ -250,6 +256,7 @@ class Asteroids( Game ):
             if self.enemyship.contains(bullet.position):
                 print("Boom Enemyship Dead")
                 self.bullets.remove(bullet)
+                self.enemyship = None
 
 
 
