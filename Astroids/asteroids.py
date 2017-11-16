@@ -241,6 +241,8 @@ class Asteroids( Game ):
                     self.shield.remove(shield)
 
     def enemyBulletCollideWithShip(self):
+        if not self.ship:
+            return
         for bullet in self.enemybullets:
             if self.ship.contains(bullet.position):
                 self.enemybullets.remove(bullet)
