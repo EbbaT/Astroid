@@ -1,6 +1,6 @@
 from circle import Circle
 from point import Point
-
+import pygame
 
 class Enemybullet(Circle):
     """Shooting things like a bass"""
@@ -12,15 +12,17 @@ class Enemybullet(Circle):
         self.linewidth = 0
 
         self.color = (255, 255, 0)
+        self.time = pygame.time.get_ticks()
 
         self.rotation = rot
 
-        self.accelerate(10)
+        self.accelerate(7)
 
         self.angular_velocity = 0
 
         self.position = Point(x, y)
-
+    def age(self):
+        return pygame.time.get_ticks() - self.time
     def update(self, width, height):
 
         self.position.x

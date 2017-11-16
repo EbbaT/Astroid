@@ -4,14 +4,14 @@ class Enemyship(Ship):
    
 
     def __init__(self):
-        self.ship_image = pygame.image.load("test_fighter.png")
+        ship_image = pygame.image.load("Tank_SU.png")
         # self.ship_image = pygame.image.load("falcon2.png")
         # Min not so good Falcon ;_;
-        self.ship_image = pygame.transform.scale(self.ship_image, (50, 50))
+        ship_image = pygame.transform.scale(ship_image, (50, 50))
 
         self.points = [Point(-17, -20), Point(10, -20), Point(25, -2), Point(0, 20), Point(-20, 15), Point(-25, 0)]
 
-        super().__init__()
+        super().__init__(ship_image)
         self.position.x = 10
         self.position.y = 300
         self.rotation = 2

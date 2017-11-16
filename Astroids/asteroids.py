@@ -88,7 +88,8 @@ class Asteroids( Game ):
                 self.shield.append(Shield(self.ship.get_x(), self.ship.get_y(), self.ship.get_rotation()))
 
         if keys_pressed[K_b] and self.ship:
-            self.bullets.append(Enemybullet(self.enemyship.getE_x(), self.enemyship.getE_y(), self.enemyship.getE_rotation()))
+            if len(self.enemybullets)==0 or self.enemybullets[-1].age() > 2000:
+                self.enemybullets.append(Enemybullet(self.enemyship.getE_x(), self.enemyship.getE_y(), self.enemyship.getE_rotation()))
 
 
 
@@ -96,8 +97,9 @@ class Asteroids( Game ):
 
         super().update_simulation()
 
-        if self.enemyship:
+        if self.enemyship and self.ship:
             self.enemyship.update(self.width, self.height)
+            self.enemyship.rotation = Point(self.enemyship.getE_x(),self.enemyship.getE_y()).getAngleBetwen( self.ship.position)
 
         if self.ship:
             self.ship.update( self.width, self.height )
@@ -116,14 +118,20 @@ class Asteroids( Game ):
 
         for bullet in self.enemybullets:
             if bullet.update(self.width, self.height) == True:
-                    self.bullets.remove()
-        for shield in self.shield:
-            shield.update(self.ship.get_x(), self.ship.get_y() )
+                    self.enemybullets.remove(bullet)
+
         self.handle_collisions()
 
         self.asteroid_collision()
+
+        self.enemyBulletCollideWithShip()
         #Asteroid-collision, utan = snabbare, med mycket coolare
-        
+        if self.ship:
+            self.shieldCollision()
+
+        for shield in self.shield:
+            shield.update(self.ship.get_x(), self.ship.get_y() )
+
 
     def render_objects(self):
         super().render_objects()
@@ -162,6 +170,13 @@ class Asteroids( Game ):
         self.screen.blit(life, (70, 5))
         if (self.life < 0):
             self.gameOver()
+
+        TpKnapp = self.myfont.render("t-For teleport", 1, (255, 255, 0))
+        self.screen.blit(TpKnapp, (600, 520))
+
+        Shieldknapp = self.myfont.render("S-For shield", 1, (255, 255, 0))
+        self.screen.blit(Shieldknapp, (600, 540))
+
 
 
     def handle_collisions(self):
@@ -210,9 +225,26 @@ class Asteroids( Game ):
                 if shield.shielddetection(asteroid):
                     self.shield.remove(shield)
 
+    def enemyBulletCollideWithShip(self):
+        for bullet in self.enemybullets:
+            if self.ship.contains(bullet.position):
+                self.enemybullets.remove(bullet)
+                self.life = self.life -1
+
+
+
+
+
+
+
+
+
+
 
     def gameOver(self):
         #Game over skärmen!
+
+
 
         Game_Over = self.myfont.render("Game Over", 1, (255, 0, 0))
         onRestart = self.myfont.render("Press [R] to restart!", 2, (255, 255, 255))
@@ -222,5 +254,7 @@ class Asteroids( Game ):
 
         self.screen.blit(onRestart, (280, 290))
         self.ship = None
-                    
 
+            
+        
+            
