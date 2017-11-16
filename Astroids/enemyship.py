@@ -16,19 +16,10 @@ class Enemyship(Ship):
         self.position.y = 300
         self.rotation = 2
 
-        self.pull = Point(0, -0.1)
+        self.pull = Point(1, -1)
         # En liten pull uppåt när man startar spelet
 
         self.angular_velocity = 1
-
-    def getE_x(self):
-        return self.position.getX()
-
-    def getE_y(self):
-        return self.position.getY()
-
-    def getE_rotation(self):
-        return self.rotation
 
 
 

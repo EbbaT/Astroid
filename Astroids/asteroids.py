@@ -39,7 +39,10 @@ class Asteroids( Game ):
 
         self.shield = []
 
+
         self.enemyship = Enemyship()
+        self.enemyship = None
+
 
         self.myfont = pygame.font.SysFont("monospace", 20, True)
 
@@ -50,9 +53,16 @@ class Asteroids( Game ):
 
 
 
+
+
     def handle_input(self):
         super().handle_input()
         keys_pressed = pygame.key.get_pressed()
+        self.spawnenemyship = random.randint(1, 100)
+        print(self.spawnenemyship)
+
+
+
 
         self.restart = keys_pressed[K_r]
 
@@ -77,6 +87,7 @@ class Asteroids( Game ):
                     self.blastSound.play()
                     self.bullets.append(Bullet(self.ship.get_x(), self.ship.get_y(), self.ship.get_rotation()))
 
+
         if (keys_pressed[K_t]) and self.ship:
             now = pygame.time.get_ticks()
             print(now)
@@ -90,7 +101,7 @@ class Asteroids( Game ):
 
         if keys_pressed[K_b] and self.ship:
             if len(self.enemybullets)==0 or self.enemybullets[-1].age() > 2000:
-                self.enemybullets.append(Enemybullet(self.enemyship.getE_x(), self.enemyship.getE_y(), self.enemyship.getE_rotation()))
+                self.enemybullets.append(Enemybullet(self.enemyship.get_x(), self.enemyship.get_y(), self.enemyship.get_rotation()))
 
 
 
@@ -99,8 +110,8 @@ class Asteroids( Game ):
         super().update_simulation()
 
         if self.enemyship and self.ship:
-            self.enemyship.update(self.width, self.height)
-            self.enemyship.rotation = Point(self.enemyship.getE_x(),self.enemyship.getE_y()).getAngleBetwen( self.ship.position)
+             self.enemyship.update(self.width, self.height)
+             self.enemyship.rotation = Point(self.enemyship.get_x(),self.enemyship.get_y()).getAngleBetwen( self.ship.position)
 
         if self.ship:
             self.ship.update( self.width, self.height )
@@ -123,6 +134,8 @@ class Asteroids( Game ):
         self.handle_collisions()
 
         self.asteroid_collision()
+
+        self.bulletColideWithEnemyShip()
 
         self.enemyBulletCollideWithShip()
         #Asteroid-collision, utan = snabbare, med mycket coolare
@@ -228,6 +241,15 @@ class Asteroids( Game ):
             if self.ship.contains(bullet.position):
                 self.enemybullets.remove(bullet)
                 self.life = self.life -1
+
+
+    def bulletColideWithEnemyShip(self):
+        if not self.enemyship:
+            return
+        for bullet in self.bullets:
+            if self.enemyship.contains(bullet.position):
+                print("Boom Enemyship Dead")
+                self.bullets.remove(bullet)
 
 
 
