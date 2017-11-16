@@ -49,7 +49,6 @@ class Asteroids( Game ):
         self.cooldown = 150
 
 
-
     def handle_input(self):
         super().handle_input()
         keys_pressed = pygame.key.get_pressed()
@@ -102,6 +101,7 @@ class Asteroids( Game ):
 
         if self.ship:
             self.ship.update( self.width, self.height )
+            self.shieldCollision()
 
         if self.forth == 2:
             for asteroid in self.asteroids:
@@ -117,16 +117,13 @@ class Asteroids( Game ):
         for bullet in self.enemybullets:
             if bullet.update(self.width, self.height) == True:
                     self.bullets.remove()
-
+        for shield in self.shield:
+            shield.update(self.ship.get_x(), self.ship.get_y() )
         self.handle_collisions()
 
         self.asteroid_collision()
         #Asteroid-collision, utan = snabbare, med mycket coolare
-        self.shieldCollision()
-
-        for shield in self.shield:
-            shield.update(self.ship.get_x(), self.ship.get_y() )
-
+        
 
     def render_objects(self):
         super().render_objects()
@@ -202,6 +199,8 @@ class Asteroids( Game ):
                         self.asteroids[j].invertPull()
                         self.asteroids[i].invertPull()
 
+
+
     def shieldCollision(self):
 
         for asteroid in self.asteroids:
@@ -212,29 +211,16 @@ class Asteroids( Game ):
                     self.shield.remove(shield)
 
 
-
-
-
-
-
-
-
-
-
-
     def gameOver(self):
         #Game over skärmen!
-
-        clock = pygame.time.get_ticks()
 
         Game_Over = self.myfont.render("Game Over", 1, (255, 0, 0))
         onRestart = self.myfont.render("Press [R] to restart!", 2, (255, 255, 255))
         offRestart = self.myfont.render("Press [R] to restart!", 2, (150, 150, 150))
         self.screen.blit(Game_Over, (350, 250))
 
+
         self.screen.blit(onRestart, (280, 290))
         self.ship = None
+                    
 
-            
-        
-            
