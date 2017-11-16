@@ -123,6 +123,8 @@ class Asteroids( Game ):
         self.handle_collisions()
 
         self.asteroid_collision()
+
+        self.enemyBulletCollideWithShip()
         #Asteroid-collision, utan = snabbare, med mycket coolare
         if self.ship:
             self.shieldCollision()
@@ -169,6 +171,13 @@ class Asteroids( Game ):
         if (self.life < 0):
             self.gameOver()
 
+        TpKnapp = self.myfont.render("t-For teleport", 1, (255, 255, 0))
+        self.screen.blit(TpKnapp, (600, 520))
+
+        Shieldknapp = self.myfont.render("S-For shield", 1, (255, 255, 0))
+        self.screen.blit(Shieldknapp, (600, 540))
+
+
 
     def handle_collisions(self):
 
@@ -213,6 +222,12 @@ class Asteroids( Game ):
             for shield in self.shield:
                 if shield.shielddetection(asteroid):
                     self.shield.remove(shield)
+
+    def enemyBulletCollideWithShip(self):
+        for bullet in self.enemybullets:
+            if self.ship.contains(bullet.position):
+                self.enemybullets.remove(bullet)
+                self.life = self.life -1
 
 
 
