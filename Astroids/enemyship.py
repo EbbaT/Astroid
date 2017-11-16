@@ -12,8 +12,8 @@ class Enemyship(Ship):
         self.points = [Point(-17, -20), Point(10, -20), Point(25, -2), Point(0, 20), Point(-20, 15), Point(-25, 0)]
 
         super().__init__(ship_image)
-        self.position.x = 10
-        self.position.y = 300
+        self.position.x = randint(1,640)
+        self.position.y = randint(1,480)
         self.rotation = 2
 
         self.pull = Point(1, -1)

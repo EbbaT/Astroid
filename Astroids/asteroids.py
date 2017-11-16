@@ -41,6 +41,7 @@ class Asteroids( Game ):
 
         self.enemyship = Enemyship()
 
+
         self.enemyship = None
 
 
@@ -60,13 +61,7 @@ class Asteroids( Game ):
     def handle_input(self):
         super().handle_input()
         keys_pressed = pygame.key.get_pressed()
-        self.spawnenemyship = random.randint(1, 400)
-        print(self.spawnenemyship)
-        if self.spawnenemyship == 200:
-            self.enemyship = Enemyship()
-
-
-
+        self.spawnenemyship = random.randint(1, 200)
 
         self.restart = keys_pressed[K_r]
 
@@ -106,6 +101,11 @@ class Asteroids( Game ):
         if keys_pressed[K_b] and self.ship:
             if len(self.enemybullets)==0 or self.enemybullets[-1].age() > 2000:
                 self.enemybullets.append(Enemybullet(self.enemyship.get_x(), self.enemyship.get_y(), self.enemyship.get_rotation()))
+
+        if self.enemyship:
+            return
+        if self.spawnenemyship == 200:
+            self.enemyship = Enemyship()
 
 
 
