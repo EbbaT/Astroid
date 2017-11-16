@@ -29,7 +29,7 @@ class Asteroids( Game ):
             self.asteroids.append(Stones())
         
         self.stars=[]
-        for i in range(30):
+        for i in range(300):
             self.stars.append(Star())
         
         self.bullets = []
@@ -45,8 +45,6 @@ class Asteroids( Game ):
         self.enemyship = None
 
 
-
-
         self.myfont = pygame.font.SysFont("monospace", 20, True)
 
         self.life = 3
@@ -54,8 +52,6 @@ class Asteroids( Game ):
         self.last = pygame.time.get_ticks()
         self.cooldown = 150
         self.spawnenemyship = 0
-
-
 
 
     def handle_input(self):
@@ -98,15 +94,11 @@ class Asteroids( Game ):
 
                 self.shield.append(Shield(self.ship.get_x(), self.ship.get_y(), self.ship.get_rotation()))
 
-        if keys_pressed[K_b] and self.ship:
-            if len(self.enemybullets)==0 or self.enemybullets[-1].age() > 2000:
-                self.enemybullets.append(Enemybullet(self.enemyship.get_x(), self.enemyship.get_y(), self.enemyship.get_rotation()))
-
         if self.enemyship:
             return
+
         if self.spawnenemyship == 200:
             self.enemyship = Enemyship()
-
 
 
     def update_simulation(self):
@@ -138,6 +130,7 @@ class Asteroids( Game ):
 
         for shield in self.shield:
             shield.update(self.ship.get_x(), self.ship.get_y() )
+
         self.handle_collisions()
 
         self.asteroid_collision()
@@ -213,7 +206,6 @@ class Asteroids( Game ):
                         self.asteroids.append(Stones((asteriod.position.x -20), (asteriod.position.y + 20), "M"))
                         self.asteroids.append(Stones((asteriod.position.x + 20), (asteriod.position.y - 20), "M"))
 
-
                     elif asteriod.name == "M":
                         self.asteroids.remove(asteriod)
                     self.bullets.remove(bullet)
@@ -227,9 +219,7 @@ class Asteroids( Game ):
                 if self.asteroids[i] != self.asteroids[j] and self.asteroids[i].distanceBetweenPosition(self.asteroids[j]) < 60:
                     if self.asteroids[i].collide(self.asteroids[j]):
                         self.asteroids[j].invertPull()
-                        self.asteroids[i].invertPull()
-
-
+                        self.asteroids[i].invertPull() 
 
     def shieldCollision(self):
 
@@ -264,16 +254,6 @@ class Asteroids( Game ):
             if len(self.enemybullets) == 0 or self.enemybullets[-1].age() > 2000:
                 self.enemybullets.append(
                     Enemybullet(self.enemyship.get_x(), self.enemyship.get_y(), self.enemyship.get_rotation()))
-
-
-
-
-
-
-
-
-
-
 
     def gameOver(self):
         #Game over skärmen!
