@@ -2,11 +2,69 @@
 					Asteroids - Grupparbete
 **************************************************************************
 						
+						Information page!
+					If lost, just check here.
+
 ##########################################################################
 
 Controls:
 	Movement:
-		
+		Arrow Keys or WASD
+		Move your ship, "W" or UP-arrow to accelerate forward!
+		"A" or LEFT-arrow to turn your ship to the left,
+		"D" or RIGHT-arrown to turn your ship to the right,
+		and use "S" or DOWN-arrow to stop your ship.
+
+	Shoot:
+		Spacebar
+		Shoot down your enemies and the sad stones that are just
+		chillin' around in space
+
+	Shield:
+		S-key
+		Creates a shield around your ship, once it's hit it dissapears
+		We're going to add so that you may only use it once in a while
+
+	Teleport:
+		T-key
+		Teleportation to a random location on the screen. Watch out
+		though, you might respawn right on an asteroid..
+
+	Information:
+		I-key
+		You're already here though mate. (:
+
+Score Fuctions:
+	Highscore is unfortunatly not installed yet, we're working on a fix
+	for taht problem. Stay Tuned!
+
+Lives:
+	You only have 3 lives, and once you're down to 0 it's your last
+	chance. Then it's all over from the beginning!
+	You loose a life if you run into an asteroid or if you get shot
+	by the enemyship that may or may not spawn during your run.
+
+	And I'm afraid if you get hit, there's no delay before you can get
+	hit again. We have not applied that feature yet. 
+
+Asteroids:
+	Every asteroid takes one hit to kill. Though the big ones turn into
+	two smaller ones when they're destroyed. And watch out, if they
+	collide - they go in the opposite direction! 
+
+Enemyship (UFO):
+	It looks like a tank once it is spawned. It tries to shoot you down
+	and is always facing you, kill it as fast as possible! Otherwise
+	it might kill you first..
+
+
+##########################################################################
+
+Made by: IOT17 Group Nerds
+
+Ebba Taberman - ExtraTerrestrial
+Anton Eklöf - Formal military dude
+Marcus Berström - Hunter
 
 ##########################################################################
 							Atari2600 - 1979

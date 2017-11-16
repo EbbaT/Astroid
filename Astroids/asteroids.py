@@ -36,7 +36,6 @@ class Asteroids( Game ):
 
         self.enemybullets = []
 
-
         self.shield = []
 
         self.enemyship = Enemyship()
@@ -120,17 +119,13 @@ class Asteroids( Game ):
             if bullet.update(self.width, self.height) == True:
                     self.enemybullets.remove(bullet)
 
+        for shield in self.shield:
+            shield.update(self.ship.get_x(), self.ship.get_y() )
         self.handle_collisions()
 
         self.asteroid_collision()
 
         self.enemyBulletCollideWithShip()
-        #Asteroid-collision, utan = snabbare, med mycket coolare
-        if self.ship:
-            self.shieldCollision()
-
-        for shield in self.shield:
-            shield.update(self.ship.get_x(), self.ship.get_y() )
 
 
     def render_objects(self):
@@ -162,14 +157,13 @@ class Asteroids( Game ):
         self.screen.blit(score, (500, 5)) #500 i lådan, 650 utanför i fall att vi vill ha någonting annat där
 
 
-
-
         visible_life = self.life
         if visible_life < 0: visible_life = 0
         life = self.myfont.render("Life: {}".format(str(visible_life)), 1, (255, 0, 0))
         self.screen.blit(life, (70, 5))
         if (self.life < 0):
             self.gameOver()
+
 
         TpKnapp = self.myfont.render("t-For teleport", 1, (255, 255, 0))
         self.screen.blit(TpKnapp, (600, 520))
@@ -232,25 +226,13 @@ class Asteroids( Game ):
                 self.life = self.life -1
 
 
-
-
-
-
-
-
-
-
-
     def gameOver(self):
         #Game over skärmen!
 
-
-
         Game_Over = self.myfont.render("Game Over", 1, (255, 0, 0))
         onRestart = self.myfont.render("Press [R] to restart!", 2, (255, 255, 255))
-        offRestart = self.myfont.render("Press [R] to restart!", 2, (150, 150, 150))
+        #offRestart = self.myfont.render("Press [R] to restart!", 2, (150, 150, 150))
         self.screen.blit(Game_Over, (350, 250))
-
 
         self.screen.blit(onRestart, (280, 290))
         self.ship = None
